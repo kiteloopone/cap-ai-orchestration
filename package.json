@@ -1,0 +1,33 @@
+{
+  "name": "cap-ai-orchestration",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "watch:hybrid": "cds watch --profile hybrid",
+    "test:ai": "node --env-file=.env srv/lib/ai-orchestration.test.js",
+    "setup:orchestration": "node --env-file=.env srv/lib/create-orchestration-config.js"
+  },
+  "dependencies": {
+    "@cap-js/sqlite": "^2.4.0",
+    "@sap-ai-sdk/ai-api": "^2.12.0",
+    "@sap-ai-sdk/orchestration": "^2",
+    "@sap/cds": "^9",
+    "sql.js": "^1.13.0"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^9"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db.sqlite"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<mvc:View
+  controllerName="cap-ai-orchestration.ai-prompt.controller.App"
+  displayBlock="true"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc">
+  <App class="aiPromptApp">
+    <Page
+      id="promptPage"
+      title="{i18n>appTitle}"
+      showHeader="true"
+      enableScrolling="true"
+      class="aiPromptPage">
+      <content>
+        <VBox class="aiPromptContent" width="100%">
+          <VBox class="aiPromptInputBlock" width="100%">
+            <Label text="{i18n>promptLabel}" labelFor="promptInput" class="sapUiTinyMarginBottom" />
+            <TextArea
+              id="promptInput"
+              value="{view>/prompt}"
+              rows="9"
+              width="100%"
+              enabled="{= !${view>/busy} }"
+              placeholder="{i18n>promptPlaceholder}" />
+            <OverflowToolbar class="aiPromptToolbar">
+              <ToolbarSpacer />
+              <Button
+                type="Emphasized"
+                icon="sap-icon://paper-plane"
+                text="{i18n>sendButton}"
+                busy="{view>/busy}"
+                busyIndicatorDelay="0"
+                enabled="{= !${view>/busy} &amp;&amp; !!${view>/prompt} }"
+                press=".onSubmit" />
+            </OverflowToolbar>
+          </VBox>
+
+          <MessageStrip
+            class="sapUiSmallMarginTop"
+            text="{view>/error}"
+            type="Error"
+            showIcon="true"
+            visible="{= !!${view>/error} }" />
+
+          <VBox class="aiPromptAnswerBlock" width="100%" visible="{= !!${view>/answer} }">
+            <Title text="{i18n>answerTitle}" level="H2" class="aiPromptAnswerTitle" />
+            <ScrollContainer height="22rem" width="100%" vertical="true" horizontal="false" focusable="true">
+              <FormattedText htmlText="{view>/answerHtml}" class="aiPromptAnswerText" />
+            </ScrollContainer>
+          </VBox>
+        </VBox>
+      </content>
+    </Page>
+  </App>
+</mvc:View>

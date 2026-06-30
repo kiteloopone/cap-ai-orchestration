@@ -1,0 +1,10 @@
+node_modules/
+gen/
+resources/
+.mta_archives/
+default-*.json
+*.db
+*.sqlite
+.env
+.cdsrc-private.json
+.DS_Store
