@@ -15,6 +15,17 @@ function getErrorDetails(error) {
   };
 }
 
+function getAiErrorMessage(error) {
+  const responseError = error?.cause?.response?.data?.error ||
+    error?.response?.data?.error;
+  const message = responseError?.message ||
+    error?.message ||
+    'AI document processing failed.';
+  const requestId = responseError?.request_id;
+
+  return requestId ? `${message} Request ID: ${requestId}` : message;
+}
+
 export default class CatalogService extends cds.ApplicationService {
   async init() {
     const { Products } = this.entities;
@@ -167,9 +178,7 @@ export default class CatalogService extends cds.ApplicationService {
         return result.content;
       } catch (error) {
         const details = getErrorDetails(error);
-        const message = error?.cause?.response?.data?.error?.message ||
-          error?.message ||
-          'AI document processing failed.';
+        const message = getAiErrorMessage(error);
         console.error('AI document processing failed:', JSON.stringify(details, null, 2));
 
         await UPDATE(Documents).set({

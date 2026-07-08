@@ -68,11 +68,11 @@ The important local variables are:
 - `AI_ORCHESTRATION_DEPLOYMENT_ID`: optional fixed orchestration deployment ID.
 - `AI_ORCHESTRATION_CONFIG_ID`: optional orchestration configuration ID from SAP AI Launchpad.
 - `AI_ORCHESTRATION_CONFIG_SCENARIO`, `AI_ORCHESTRATION_CONFIG_NAME`, `AI_ORCHESTRATION_CONFIG_VERSION`: optional alternative to `AI_ORCHESTRATION_CONFIG_ID`.
-- `AI_MODEL_NAME`: model name to use. For cheap PDF/image testing, use a nano model with file or image input support if it is available in your SAP AI Core tenant, for example `gpt-4.1-nano`.
+- `AI_MODEL_NAME`: model name to use. For cheap PDF/image testing, use a low-cost model with file or image input support if it is available in your SAP AI Core tenant, for example `gemini-2.5-flash-lite`.
 
 If `AI_ORCHESTRATION_CONFIG_ID` is set, the backend uses the orchestration configuration from SAP AI Launchpad instead of the inline configuration in `srv/lib/ai-orchestration.js`. That Launchpad configuration must support the placeholders used by the app. The AI Prompt chat sends the user text as `user_query`, matching a template placeholder like `{{?user_query}}`.
 
-For PDF document processing, the Launchpad orchestration model must support file input. If the configuration uses a model without file input support, document processing stores the error on the document row with status `Failed`. For cheap testing, configure your Launchpad orchestration to use the cheapest nano model available in your tenant that supports image or file input.
+For PDF document processing, the Launchpad orchestration model must support file input. If the configuration uses a model without file input support, document processing stores the error on the document row with status `Failed`. For cheap testing, configure your Launchpad orchestration to use `gemini-2.5-flash-lite` if it is available in your tenant with file or image input support.
 
 ## Document processing
 

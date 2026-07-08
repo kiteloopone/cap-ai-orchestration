@@ -3,7 +3,7 @@ import {
   buildAzureContentSafetyFilter
 } from '@sap-ai-sdk/orchestration';
 
-const DEFAULT_MODEL = process.env.AI_MODEL_NAME || 'gpt-4.1-nano';
+const DEFAULT_MODEL = process.env.AI_MODEL_NAME || 'gemini-2.5-flash-lite';
 const RESOURCE_GROUP = process.env.AI_RESOURCE_GROUP || process.env.AI_RESOURCE_GROUP_ID;
 const DEPLOYMENT_ID = process.env.AI_ORCHESTRATION_DEPLOYMENT_ID;
 const CONFIG_ID = process.env.AI_ORCHESTRATION_CONFIG_ID;
@@ -35,6 +35,13 @@ function getOrchestrationConfig(inlineConfig) {
   }
 
   return inlineConfig;
+}
+
+function toPdfDataUrl(contentBase64) {
+  const trimmed = contentBase64.trim();
+  return trimmed.startsWith('data:')
+    ? trimmed
+    : `data:application/pdf;base64,${trimmed}`;
 }
 
 function createClient({
@@ -169,7 +176,7 @@ export async function analyzePdfDocument({
           {
             type: 'file',
             file: {
-              file_data: contentBase64,
+              file_data: toPdfDataUrl(contentBase64),
               filename: fileName || 'document.pdf'
             }
           }
