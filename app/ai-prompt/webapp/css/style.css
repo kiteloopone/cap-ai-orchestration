@@ -18,7 +18,8 @@ body,
 }
 
 .aiPromptInputBlock,
-.aiPromptAnswerBlock {
+.aiPromptDocumentBlock,
+.aiPromptChatBlock {
   box-sizing: border-box;
   padding: 1rem;
   border: 1px solid var(--sapGroup_ContentBorderColor);
@@ -33,11 +34,32 @@ body,
   background: transparent;
 }
 
-.aiPromptAnswerTitle {
+.aiPromptSectionTitle,
+.aiPromptChatTitle {
   margin-bottom: 0.75rem;
 }
 
-.aiPromptAnswerText {
+.aiPromptDocumentToolbar {
+  gap: 0.75rem;
+}
+
+.aiPromptChatList {
+  border: 0;
+}
+
+.aiPromptMessage {
+  box-sizing: border-box;
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.aiPromptRequest,
+.aiPromptResponse {
+  box-sizing: border-box;
+  gap: 0.35rem;
+}
+
+.aiPromptMessageText {
   display: block;
   line-height: 1.5;
   white-space: normal;
@@ -49,7 +71,13 @@ body,
   }
 
   .aiPromptInputBlock,
-  .aiPromptAnswerBlock {
+  .aiPromptDocumentBlock,
+  .aiPromptChatBlock {
     padding: 0.75rem;
+  }
+
+  .aiPromptDocumentToolbar {
+    align-items: stretch;
+    flex-direction: column;
   }
 }

@@ -1,0 +1,291 @@
+[33m
+[1mcds serve all --with-mocks --in-memory? [0m
+[33m( live reload enabled for browsers ) [0m
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 2941 ms
+[odata] - POST /odata/v4/catalog/askAssistant 
+AI token usage: {
+  completion_tokens: 27,
+  prompt_tokens: 114,
+  total_tokens: 141,
+  prompt_tokens_details: { audio_tokens: 0, cached_tokens: 0 },
+  completion_tokens_details: {
+    accepted_prediction_tokens: 0,
+    audio_tokens: 0,
+    reasoning_tokens: 13,
+    rejected_prediction_tokens: 0
+  }
+}
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 8784 ms
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 4822 ms
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 5341 ms
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 7626 ms
+[odata] - GET /odata/v4/catalog/Documents 
+[odata] - GET /odata/v4/catalog/ 
+[odata] - GET /odata/v4/catalog/Documents 
+[odata] - POST /odata/v4/catalog/uploadDocument 
+[odata] - GET /odata/v4/catalog/Documents 
+[odata] - POST /odata/v4/catalog/processDocument 
+[odata] - GET /odata/v4/catalog/Documents 
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 9982 ms
+[odata] - POST /odata/v4/catalog/processDocument 
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 6486 ms
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 6136 ms
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 32801 ms
+[odata] - POST /odata/v4/catalog/processDocument 
+[odata] - GET /odata/v4/catalog/Documents 
+[odata] - DELETE /odata/v4/catalog/Documents(c9ee7431-2cd4-486c-8e19-ef4c847a23ba) 
+[odata] - GET /odata/v4/catalog/Documents 
+[odata] - GET /odata/v4/catalog/Documents 
+[33m
+[1m        ___________________________
+ [0m
+[cds] - loaded model from 6 file(s):
+ 
+  db\currencies.cds
+  app\services.cds
+  node_modules\@sap\cds\common.cds
+  app\browse\fiori-service.cds
+  srv\catalog-service.cds
+  db\schema.cds
+
+[cds] - using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: 'db.sqlite' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules\\@sap\\cds\\lib\\srv\\middlewares\\auth\\basic-auth.js'
+}
+[cds] - serving CatalogService {
+  at: [ '/odata/v4/catalog' ],
+  decl: 'srv\\catalog-service.cds:3',
+  impl: 'srv\\catalog-service.js'
+}
+[cds] - server listening on { url: 'http://localhost:4004' }
+[cds] - server v9.9.2 launched in 10907 ms

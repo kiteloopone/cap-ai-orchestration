@@ -4,11 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "cds-serve",
-    "watch": "cds watch",
-    "watch:hybrid": "cds watch --profile hybrid",
-    "test:ai": "node --env-file=.env srv/lib/ai-orchestration.test.js",
-    "setup:orchestration": "node --env-file=.env srv/lib/create-orchestration-config.js"
+    "start": "node --env-file-if-exists=.env node_modules/@sap/cds-dk/bin/cds.js serve",
+    "watch": "node --env-file-if-exists=.env node_modules/@sap/cds-dk/bin/cds.js watch",
+    "watch:hybrid": "node --env-file-if-exists=.env node_modules/@sap/cds-dk/bin/cds.js watch --profile hybrid",
+    "test:ai": "node --env-file-if-exists=.env srv/lib/ai-orchestration.diagnostics.js",
+    "setup:orchestration": "node --env-file-if-exists=.env srv/lib/create-orchestration-config.js"
   },
   "dependencies": {
     "@cap-js/sqlite": "^2.4.0",

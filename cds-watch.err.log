@@ -1,0 +1,147 @@
+[cds] - ❗️Uncaught Error: The module '\\?\C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\better-sqlite3\build\Release\better_sqlite3.node'
+was compiled against a different Node.js version using
+NODE_MODULE_VERSION 141. This version of Node.js requires
+NODE_MODULE_VERSION 127. Please try re-compiling or re-installing
+the module (for instance, using `npm rebuild` or `npm install`).
+    at Object..node (node:internal/modules/cjs/loader:1725:18)
+    at Module.load (node:internal/modules/cjs/loader:1313:32)
+    at Function._load (node:internal/modules/cjs/loader:1123:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:217:24)
+    at Module.require (node:internal/modules/cjs/loader:1335:12)
+    at require (node:internal/modules/helpers:136:16)
+    at bindings (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\bindings\bindings.js:112:48)
+    at new Database (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\better-sqlite3\lib\database.js:48:64)
+    at create (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\@cap-js\sqlite\lib\SQLiteService.js:36:23) {
+  code: 'ERR_DLOPEN_FAILED'
+}
+[cds] - ❗️server shutdown ...❗️
+AI document processing failed: {
+  name: 'ErrorWithCause',
+  message: 'Request failed with status code 400.',
+  code: undefined,
+  status: undefined,
+  statusCode: undefined,
+  responseStatus: undefined,
+  responseStatusText: undefined,
+  responseData: undefined,
+  cause: {
+    name: 'AxiosError',
+    message: 'Request failed with status code 400',
+    code: 'ERR_BAD_REQUEST',
+    status: 400,
+    statusCode: undefined,
+    responseStatus: 400,
+    responseStatusText: 'Bad Request',
+    responseData: { error: [Object] },
+    cause: undefined
+  }
+}
+[error] - 502 - Error: AI document processing failed.
+    at CatalogService.<anonymous> (file:///C:/Users/U501579/Desktop/SAP_CAP/cap-ai-orchestration/srv/catalog-service.js:178:20)
+    at async next (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\@sap\cds\lib\srv\srv-dispatch.js:57:17)
+    at async CatalogService.handle (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\@sap\cds\lib\srv\srv-dispatch.js:55:10) {
+  code: '502'
+}
+AI document processing failed: {
+  "name": "ErrorWithCause",
+  "message": "Request failed with status code 400.",
+  "cause": {
+    "name": "AxiosError",
+    "message": "Request failed with status code 400",
+    "code": "ERR_BAD_REQUEST",
+    "status": 400,
+    "responseStatus": 400,
+    "responseStatusText": "Bad Request",
+    "responseData": {
+      "error": {
+        "request_id": "a14f3814-c8f7-9b6e-ac41-e2aff33274fd",
+        "code": 400,
+        "message": "400 - LLM Module: Model 'gpt-5.5' does not support file input.",
+        "location": "LLM Module",
+        "intermediate_results": {
+          "templating": [
+            {
+              "content": [
+                {
+                  "type": "file",
+                  "file": {
+                    "file_data": "JVBERi0xLjEKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9Db3VudCAwID4+CmVuZG9iagp0cmFpbGVyCjw8IC9Sb290IDEgMCBSID4+CiUlRU9G",
+                    "filename": "test-document.pdf"
+                  }
+                }
+              ],
+              "role": "user"
+            },
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Du bist ein SAP CAP Development Assistant.\n\nHilf dem Nutzer bei SAP CAP Node.js, CDS, OData V4, SAP BTP, SAP AI Core, Generative AI Hub und Fiori Elements. Antworte auf Deutsch, praxisnah und mit konkreten Schritten. Verwende Codebeispiele, wenn sie hilfreich sind. Erfinde keine SAP-spezifischen APIs oder Konfigurationsparameter. Wenn Informationen fehlen, nenne deine Annahmen kurz.\n\nNutzerfrage:\nRead the attached PDF document and extract the most important business information. Return concise JSON with fields: documentType, sender, documentDate, totalAmount, currency, dueDate, summary, risks, missingInformation."
+                }
+              ],
+              "role": "user"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  }
+}
+[error] - 502 - Error: AI document processing failed.
+    at CatalogService.<anonymous> (file:///C:/Users/U501579/Desktop/SAP_CAP/cap-ai-orchestration/srv/catalog-service.js:178:20)
+    at async next (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\@sap\cds\lib\srv\srv-dispatch.js:57:17)
+    at async CatalogService.handle (C:\Users\U501579\Desktop\SAP_CAP\cap-ai-orchestration\node_modules\@sap\cds\lib\srv\srv-dispatch.js:55:10) {
+  code: '502'
+}
+AI document processing failed: {
+  "name": "ErrorWithCause",
+  "message": "Request failed with status code 400.",
+  "cause": {
+    "name": "AxiosError",
+    "message": "Request failed with status code 400",
+    "code": "ERR_BAD_REQUEST",
+    "status": 400,
+    "responseStatus": 400,
+    "responseStatusText": "Bad Request",
+    "responseData": {
+      "error": {
+        "request_id": "89e7ca69-35d8-995d-a9ae-cac9df65f887",
+        "code": 400,
+        "message": "400 - LLM Module: Model 'gpt-5.5' does not support file input.",
+        "location": "LLM Module",
+        "intermediate_results": {
+          "templating": [
+            {
+              "content": [
+                {
+                  "type": "file",
+                  "file": {
+                    "file_data": "JVBERi0xLjEKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9Db3VudCAwID4+CmVuZG9iagp0cmFpbGVyCjw8IC9Sb290IDEgMCBSID4+CiUlRU9G",
+                    "filename": "test-document.pdf"
+                  }
+                }
+              ],
+              "role": "user"
+            },
+            {
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Du bist ein SAP CAP Development Assistant.\n\nHilf dem Nutzer bei SAP CAP Node.js, CDS, OData V4, SAP BTP, SAP AI Core, Generative AI Hub und Fiori Elements. Antworte auf Deutsch, praxisnah und mit konkreten Schritten. Verwende Codebeispiele, wenn sie hilfreich sind. Erfinde keine SAP-spezifischen APIs oder Konfigurationsparameter. Wenn Informationen fehlen, nenne deine Annahmen kurz.\n\nNutzerfrage:\nRead the attached PDF document and extract the most important business information. Return concise JSON with fields: documentType, sender, documentDate, totalAmount, currency, dueDate, summary, risks, missingInformation."
+                }
+              ],
+              "role": "user"
+            }
+          ]
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+  }
+}

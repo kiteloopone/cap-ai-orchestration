@@ -8,3 +8,16 @@ entity Products {
       price       : Decimal(15,2);
       currency    : String(3);
 }
+
+entity Documents {
+  key ID            : UUID;
+      fileName      : String(255);
+      mimeType      : String(100);
+      source        : String(50);
+      status        : String(30);
+      receivedAt    : DateTime;
+      processedAt   : DateTime;
+      contentBase64 : LargeString;
+      extractedText : LargeString;
+      errorMessage  : LargeString;
+}

@@ -2,7 +2,8 @@
   controllerName="cap-ai-orchestration.ai-prompt.controller.App"
   displayBlock="true"
   xmlns="sap.m"
-  xmlns:mvc="sap.ui.core.mvc">
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:u="sap.ui.unified">
   <App class="aiPromptApp">
     <Page
       id="promptPage"
@@ -41,11 +42,85 @@
             showIcon="true"
             visible="{= !!${view>/error} }" />
 
-          <VBox class="aiPromptAnswerBlock" width="100%" visible="{= !!${view>/answer} }">
-            <Title text="{i18n>answerTitle}" level="H2" class="aiPromptAnswerTitle" />
-            <ScrollContainer height="22rem" width="100%" vertical="true" horizontal="false" focusable="true">
-              <FormattedText htmlText="{view>/answerHtml}" class="aiPromptAnswerText" />
-            </ScrollContainer>
+          <VBox class="aiPromptDocumentBlock" width="100%">
+            <Title text="{i18n>documentsTitle}" level="H2" class="aiPromptSectionTitle" />
+            <HBox class="aiPromptDocumentToolbar" width="100%" alignItems="Center">
+              <u:FileUploader
+                id="documentUploader"
+                width="100%"
+                fileType="pdf"
+                mimeType="application/pdf"
+                sameFilenameAllowed="true"
+                buttonText="{i18n>choosePdfButton}"
+                placeholder="{i18n>choosePdfPlaceholder}"
+                change=".onDocumentFileChange" />
+              <Button
+                type="Emphasized"
+                icon="sap-icon://upload"
+                text="{i18n>uploadProcessButton}"
+                busy="{view>/documentBusy}"
+                busyIndicatorDelay="0"
+                enabled="{= !${view>/documentBusy} &amp;&amp; !!${view>/selectedFileName} }"
+                press=".onUploadAndProcessDocument" />
+            </HBox>
+            <MessageStrip
+              class="sapUiTinyMarginTop"
+              text="{view>/documentError}"
+              type="Error"
+              showIcon="true"
+              visible="{= !!${view>/documentError} }" />
+            <Table
+              class="sapUiSmallMarginTop"
+              items="{view>/documents}"
+              noDataText="{i18n>noDocumentsText}">
+              <columns>
+                <Column><Text text="{i18n>documentNameColumn}" /></Column>
+                <Column width="8rem"><Text text="{i18n>documentStatusColumn}" /></Column>
+                <Column><Text text="{i18n>documentResultColumn}" /></Column>
+              </columns>
+              <items>
+                <ColumnListItem>
+                  <cells>
+                    <Text text="{view>fileName}" wrapping="true" />
+                    <ObjectStatus text="{view>status}" state="{path: 'view>status', formatter: '.formatDocumentStatusState'}" />
+                    <Text text="{view>resultText}" wrapping="true" maxLines="4" />
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
+          </VBox>
+
+          <VBox class="aiPromptChatBlock" width="100%" visible="{= ${view>/messages}.length > 0 }">
+            <Title text="{i18n>chatTitle}" level="H2" class="aiPromptChatTitle" />
+            <List
+              items="{view>/messages}"
+              showSeparators="Inner"
+              mode="None"
+              class="aiPromptChatList">
+              <CustomListItem>
+                <VBox class="aiPromptMessage" width="100%">
+                  <VBox class="aiPromptRequest" width="100%">
+                    <Label text="{i18n>requestTitle}" />
+                    <FormattedText htmlText="{view>requestHtml}" class="aiPromptMessageText" />
+                  </VBox>
+                  <VBox class="aiPromptResponse" width="100%">
+                    <Label text="{i18n>responseTitle}" />
+                    <BusyIndicator
+                      size="1.5rem"
+                      visible="{view>pending}" />
+                    <FormattedText
+                      htmlText="{view>responseHtml}"
+                      visible="{= !!${view>responseHtml} }"
+                      class="aiPromptMessageText" />
+                    <MessageStrip
+                      text="{view>error}"
+                      type="Error"
+                      showIcon="true"
+                      visible="{= !!${view>error} }" />
+                  </VBox>
+                </VBox>
+              </CustomListItem>
+            </List>
           </VBox>
         </VBox>
       </content>
