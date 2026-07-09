@@ -9,6 +9,7 @@ sap.ui.define([
     prompt: '',
     messages: [],
     documents: [],
+    invoiceDocumentAttributes: [],
     selectedFileName: '',
     error: '',
     documentError: '',
@@ -22,7 +23,11 @@ sap.ui.define([
         this.getView().setModel(new JSONModel({ ...INITIAL_VIEW_STATE }), 'view');
       }
 
-      this.loadDocuments();
+      this.initializeODataModel()
+        .then(() => this.loadDocumentData())
+        .catch(error => {
+          this.getViewModel().setProperty('/documentError', this.getErrorMessage(error));
+        });
     },
 
     async onSubmit() {
@@ -108,6 +113,23 @@ sap.ui.define([
         const uploaded = uploadOperation.getBoundContext().getObject();
         const documentId = uploaded?.value;
 
+        this.upsertDocumentRow({
+          ID: documentId,
+          fileName: file.name,
+          status: 'Uploaded',
+          receivedAt: new Date().toISOString(),
+          resultText: ''
+        });
+        await this.loadDocuments({ preserveCurrent: true });
+
+        this.upsertDocumentRow({
+          ID: documentId,
+          fileName: file.name,
+          status: 'Processing',
+          receivedAt: new Date().toISOString(),
+          resultText: ''
+        });
+
         const processOperation = view.getModel().bindContext('/processDocument(...)');
         processOperation.setParameter('documentId', documentId);
         await processOperation.execute();
@@ -115,16 +137,42 @@ sap.ui.define([
         this.byId('documentUploader').clear();
         this._selectedDocumentFile = null;
         viewModel.setProperty('/selectedFileName', '');
-        await this.loadDocuments();
+        await this.loadDocumentData({ preserveCurrent: true });
       } catch (error) {
         viewModel.setProperty('/documentError', this.getErrorMessage(error));
-        await this.loadDocuments();
+        await this.loadDocumentData({ preserveCurrent: true });
       } finally {
         viewModel.setProperty('/documentBusy', false);
       }
     },
 
-    async loadDocuments() {
+    async initializeODataModel() {
+      const view = this.getView();
+      const model = view.getModel() || this.getOwnerComponent().getModel();
+
+      if (!model || typeof model.bindList !== 'function') {
+        throw new Error('OData model is not available.');
+      }
+
+      if (!view.getModel()) {
+        view.setModel(model);
+      }
+
+      await model.getMetaModel().requestObject('/');
+      return model;
+    },
+
+    async loadDocumentData(options = {}) {
+      const token = {};
+      this._documentDataRefreshToken = token;
+
+      await Promise.all([
+        this.loadDocuments({ ...options, token }),
+        this.loadInvoiceDocumentAttributes({ ...options, token })
+      ]);
+    },
+
+    async loadDocuments({ preserveCurrent = false, token } = {}) {
       const view = this.getView();
       const viewModel = this.getViewModel();
 
@@ -133,16 +181,77 @@ sap.ui.define([
           $orderby: 'receivedAt desc'
         });
         const contexts = await listBinding.requestContexts(0, 100);
-        viewModel.setProperty('/documents', contexts.map(context => {
+        const documents = contexts.map(context => {
           const document = context.getObject();
           return {
             ...document,
             resultText: document.extractedText || document.errorMessage || ''
           };
-        }));
+        });
+
+        if (token && token !== this._documentDataRefreshToken) {
+          return;
+        }
+
+        if (preserveCurrent && documents.length === 0 && (viewModel.getProperty('/documents') || []).length > 0) {
+          return;
+        }
+
+        viewModel.setProperty('/documents', documents);
       } catch (error) {
         viewModel.setProperty('/documentError', this.getErrorMessage(error));
       }
+    },
+
+    async loadInvoiceDocumentAttributes({ preserveCurrent = false, token } = {}) {
+      const view = this.getView();
+      const viewModel = this.getViewModel();
+
+      try {
+        const listBinding = view.getModel().bindList('/InvoiceDocumentAttributes', null, null, null, {
+          $orderby: 'extractedAt desc'
+        });
+        const contexts = await listBinding.requestContexts(0, 100);
+        const attributes = contexts.map(context => context.getObject());
+
+        if (token && token !== this._documentDataRefreshToken) {
+          return;
+        }
+
+        if (
+          preserveCurrent &&
+          attributes.length === 0 &&
+          (viewModel.getProperty('/invoiceDocumentAttributes') || []).length > 0
+        ) {
+          return;
+        }
+
+        viewModel.setProperty('/invoiceDocumentAttributes', attributes);
+      } catch (error) {
+        viewModel.setProperty('/documentError', this.getErrorMessage(error));
+      }
+    },
+
+    upsertDocumentRow(document) {
+      const viewModel = this.getViewModel();
+      const documents = viewModel.getProperty('/documents') || [];
+      const existingIndex = documents.findIndex(item => item.ID === document.ID);
+      const nextDocument = {
+        ...document,
+        resultText: document.resultText || document.extractedText || document.errorMessage || ''
+      };
+
+      if (existingIndex >= 0) {
+        const nextDocuments = documents.slice();
+        nextDocuments[existingIndex] = {
+          ...nextDocuments[existingIndex],
+          ...nextDocument
+        };
+        viewModel.setProperty('/documents', nextDocuments);
+        return;
+      }
+
+      viewModel.setProperty('/documents', [nextDocument].concat(documents));
     },
 
     getViewModel() {
@@ -180,6 +289,22 @@ sap.ui.define([
         default:
           return 'None';
       }
+    },
+
+    formatAmount(amount, currency) {
+      if (amount === null || amount === undefined || amount === '') {
+        return '';
+      }
+
+      const value = Number(amount);
+      const formattedAmount = Number.isFinite(value)
+        ? value.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })
+        : String(amount);
+
+      return currency ? `${formattedAmount} ${currency}` : formattedAmount;
     },
 
     getResourceBundle() {

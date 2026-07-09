@@ -8,3 +8,5 @@ default-*.json
 .env
 .cdsrc-private.json
 .DS_Store
+db.sqlite-shm
+db.sqlite-wal

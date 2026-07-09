@@ -152,7 +152,10 @@ export async function askAssistant({ prompt }) {
 export async function analyzePdfDocument({
   fileName,
   contentBase64,
-  userQuery = 'Read the attached PDF document and extract the most important business information. Return concise JSON with fields: documentType, sender, documentDate, totalAmount, currency, dueDate, summary, risks, missingInformation.'
+  userQuery = `Read the attached PDF document and extract invoice information.
+Return only valid JSON without Markdown fences.
+Use null for unknown values and ISO date format YYYY-MM-DD for dates.
+Fields: documentType, supplierName, invoiceNumber, invoiceDate, dueDate, netAmount, taxAmount, totalAmount, currency, paymentReference, summary, missingInformation.`
 }) {
   if (!contentBase64 || !contentBase64.trim()) {
     throw new Error('PDF content must not be empty.');

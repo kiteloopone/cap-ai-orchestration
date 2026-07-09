@@ -13,12 +13,12 @@
       class="aiPromptPage">
       <content>
         <VBox class="aiPromptContent" width="100%">
-          <VBox class="aiPromptInputBlock" width="100%">
+          <VBox class="aiPromptInputBlock aiPromptSurface" width="100%">
             <Label text="{i18n>promptLabel}" labelFor="promptInput" class="sapUiTinyMarginBottom" />
             <TextArea
               id="promptInput"
               value="{view>/prompt}"
-              rows="9"
+              rows="6"
               width="100%"
               enabled="{= !${view>/busy} }"
               placeholder="{i18n>promptPlaceholder}" />
@@ -42,8 +42,14 @@
             showIcon="true"
             visible="{= !!${view>/error} }" />
 
-          <VBox class="aiPromptDocumentBlock" width="100%">
-            <Title text="{i18n>documentsTitle}" level="H2" class="aiPromptSectionTitle" />
+          <VBox class="aiPromptDocumentBlock aiPromptSurface" width="100%">
+            <Toolbar class="aiPromptSectionToolbar">
+              <Title text="{i18n>documentsTitle}" level="H2" />
+              <ToolbarSpacer />
+              <ObjectStatus
+                text="{= ${view>/documents}.length }"
+                state="Information" />
+            </Toolbar>
             <HBox class="aiPromptDocumentToolbar" width="100%" alignItems="Center">
               <u:FileUploader
                 id="documentUploader"
@@ -70,8 +76,11 @@
               showIcon="true"
               visible="{= !!${view>/documentError} }" />
             <Table
-              class="sapUiSmallMarginTop"
+              class="aiPromptTable sapUiSmallMarginTop"
               items="{view>/documents}"
+              alternateRowColors="true"
+              growing="true"
+              growingThreshold="8"
               noDataText="{i18n>noDocumentsText}">
               <columns>
                 <Column><Text text="{i18n>documentNameColumn}" /></Column>
@@ -88,9 +97,47 @@
                 </ColumnListItem>
               </items>
             </Table>
+
+            <Title
+              text="{i18n>invoiceAttributesTitle}"
+              level="H3"
+              class="aiPromptSubSectionTitle" />
+            <Table
+              class="aiPromptTable sapUiTinyMarginTop"
+              items="{view>/invoiceDocumentAttributes}"
+              alternateRowColors="true"
+              growing="true"
+              growingThreshold="8"
+              noDataText="{i18n>noInvoiceAttributesText}">
+              <columns>
+                <Column><Text text="{i18n>attributeDocumentColumn}" /></Column>
+                <Column><Text text="{i18n>attributeSupplierColumn}" /></Column>
+                <Column width="9rem"><Text text="{i18n>attributeInvoiceNumberColumn}" /></Column>
+                <Column width="8rem"><Text text="{i18n>attributeInvoiceDateColumn}" /></Column>
+                <Column width="8rem"><Text text="{i18n>attributeDueDateColumn}" /></Column>
+                <Column width="9rem" hAlign="End"><Text text="{i18n>attributeTotalColumn}" /></Column>
+                <Column><Text text="{i18n>attributeSummaryColumn}" /></Column>
+              </columns>
+              <items>
+                <ColumnListItem>
+                  <cells>
+                    <Text text="{view>fileName}" wrapping="true" />
+                    <Text text="{view>supplierName}" wrapping="true" />
+                    <Text text="{view>invoiceNumber}" wrapping="true" />
+                    <Text text="{view>invoiceDate}" />
+                    <Text text="{view>dueDate}" />
+                    <Text
+                      text="{parts: [{path: 'view>totalAmount'}, {path: 'view>currency'}], formatter: '.formatAmount'}"
+                      textAlign="End"
+                      width="100%" />
+                    <Text text="{view>summary}" wrapping="true" maxLines="3" />
+                  </cells>
+                </ColumnListItem>
+              </items>
+            </Table>
           </VBox>
 
-          <VBox class="aiPromptChatBlock" width="100%" visible="{= ${view>/messages}.length > 0 }">
+          <VBox class="aiPromptChatBlock aiPromptSurface" width="100%" visible="{= ${view>/messages}.length > 0 }">
             <Title text="{i18n>chatTitle}" level="H2" class="aiPromptChatTitle" />
             <List
               items="{view>/messages}"

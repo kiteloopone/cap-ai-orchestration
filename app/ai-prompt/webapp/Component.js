@@ -8,6 +8,7 @@ sap.ui.define([
     prompt: '',
     messages: [],
     documents: [],
+    invoiceDocumentAttributes: [],
     selectedFileName: '',
     error: '',
     documentError: '',

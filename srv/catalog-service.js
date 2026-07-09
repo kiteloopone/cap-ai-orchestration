@@ -26,10 +26,131 @@ function getAiErrorMessage(error) {
   return requestId ? `${message} Request ID: ${requestId}` : message;
 }
 
+function parseJsonObject(text) {
+  const raw = String(text || '').trim();
+  const withoutFence = raw
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
+
+  try {
+    return JSON.parse(withoutFence);
+  } catch {
+    const start = withoutFence.indexOf('{');
+    const end = withoutFence.lastIndexOf('}');
+
+    if (start >= 0 && end > start) {
+      return JSON.parse(withoutFence.slice(start, end + 1));
+    }
+
+    throw new Error('AI response did not contain a JSON object.');
+  }
+}
+
+function toDate(value) {
+  if (!value || typeof value !== 'string') {
+    return null;
+  }
+
+  const match = value.match(/^\d{4}-\d{2}-\d{2}/);
+  return match ? match[0] : null;
+}
+
+function toDecimal(value) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+
+  const normalized = typeof value === 'string'
+    ? value.replace(/\s/g, '').replace(/\.(?=\d{3}(?:\D|$))/g, '').replace(',', '.')
+    : value;
+  const number = Number(normalized);
+
+  return Number.isFinite(number) ? number : null;
+}
+
+function toText(value, maxLength) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  const text = Array.isArray(value) ? value.join('; ') : String(value);
+  return text.length > maxLength ? text.slice(0, maxLength) : text;
+}
+
+function toIsoDate(value) {
+  if (!value || typeof value !== 'string') {
+    return null;
+  }
+
+  const isoMatch = value.match(/^\d{4}-\d{2}-\d{2}/);
+  if (isoMatch) {
+    return isoMatch[0];
+  }
+
+  const germanMatch = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  return germanMatch ? `${germanMatch[3]}-${germanMatch[2]}-${germanMatch[1]}` : null;
+}
+
+function summarizeValue(value) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .map(item => typeof item === 'string'
+        ? item
+        : [
+          item.description,
+          item.quantity,
+          item.total !== undefined ? `total ${item.total}` : null
+        ].filter(Boolean).join(' - '))
+      .filter(Boolean)
+      .join('; ');
+  }
+
+  if (typeof value === 'object') {
+    if (Array.isArray(value.items)) {
+      return summarizeValue(value.items);
+    }
+
+    return Object.entries(value)
+      .filter(([, entryValue]) => entryValue !== null && entryValue !== undefined)
+      .map(([key, entryValue]) => `${key}: ${Array.isArray(entryValue) || typeof entryValue === 'object' ? summarizeValue(entryValue) : entryValue}`)
+      .join('; ');
+  }
+
+  return String(value);
+}
+
+function normalizeInvoiceAttributes(attributes) {
+  const summary = attributes.summary;
+
+  return {
+    documentType: attributes.documentType,
+    supplierName: attributes.supplierName || attributes.sender?.name,
+    invoiceNumber: attributes.invoiceNumber || summary?.invoiceNumber,
+    invoiceDate: attributes.invoiceDate || attributes.documentDate,
+    dueDate: attributes.dueDate,
+    netAmount: attributes.netAmount || summary?.netAmount,
+    taxAmount: attributes.taxAmount || summary?.taxAmount,
+    totalAmount: attributes.totalAmount,
+    currency: attributes.currency,
+    paymentReference: attributes.paymentReference || summary?.paymentReference,
+    summary: summarizeValue(summary),
+    missingInformation: attributes.missingInformation
+  };
+}
+
 export default class CatalogService extends cds.ApplicationService {
   async init() {
     const { Products } = this.entities;
-    const { Documents } = cds.entities('demo.ai');
+    const { Documents, InvoiceDocumentAttributes } = cds.entities('demo.ai');
 
     this.on('askAboutProduct', async req => {
       const { productId, question } = req.data;
@@ -168,12 +289,35 @@ export default class CatalogService extends cds.ApplicationService {
 
         console.log('AI token usage:', result.tokenUsage);
 
+        const attributes = normalizeInvoiceAttributes(parseJsonObject(result.content));
+
         await UPDATE(Documents).set({
           status: 'Processed',
           processedAt: new Date().toISOString(),
           extractedText: result.content,
           errorMessage: null
         }).where({ ID: documentId });
+
+        await DELETE.from(InvoiceDocumentAttributes).where({ document_ID: documentId });
+        await INSERT.into(InvoiceDocumentAttributes).entries({
+          ID: cds.utils.uuid(),
+          document_ID: documentId,
+          fileName: document.fileName,
+          documentType: toText(attributes.documentType, 60),
+          supplierName: toText(attributes.supplierName, 255),
+          invoiceNumber: toText(attributes.invoiceNumber, 100),
+          invoiceDate: toIsoDate(attributes.invoiceDate),
+          dueDate: toIsoDate(attributes.dueDate),
+          netAmount: toDecimal(attributes.netAmount),
+          taxAmount: toDecimal(attributes.taxAmount),
+          totalAmount: toDecimal(attributes.totalAmount),
+          currency: toText(attributes.currency, 3),
+          paymentReference: toText(attributes.paymentReference, 255),
+          summary: toText(attributes.summary, 1000),
+          missingInfo: toText(attributes.missingInformation, 1000),
+          extractedAt: new Date().toISOString(),
+          rawJson: JSON.stringify(attributes)
+        });
 
         return result.content;
       } catch (error) {

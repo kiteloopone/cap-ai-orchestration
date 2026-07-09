@@ -4,6 +4,8 @@ service CatalogService {
   entity Products as projection on db.Products;
   entity Documents as projection on db.Documents
     excluding { contentBase64 };
+  entity InvoiceDocumentAttributes as projection on db.InvoiceDocumentAttributes
+    excluding { rawJson };
 
   action askAboutProduct(
     productId : UUID,
